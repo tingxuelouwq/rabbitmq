@@ -1,5 +1,6 @@
 package com.kevin.ttldlx.permessage;
 
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -23,17 +24,17 @@ public class Publisher {
         Connection connection = factory.newConnection();
 
         Channel channel = connection.createChannel();
-
-        Map<String, Object> props = new HashMap<>();
-        props.put("x-dead-letter-exchange", DEAD_LETTER_EXCHANGE_NAME);
-        props.put("x-dead-letter-routing-key", DEAD_LETTER_ROUTING_KEY);
-        props.put("x-message-ttl", 3000);
-
-        channel.queueDeclare(DELAY_QUEUE_NAME, false, false, false, props);
+        Map<String, Object> arguments = new HashMap<>();
+        arguments.put("x-dead-letter-exchange", DEAD_LETTER_EXCHANGE_NAME);
+        arguments.put("x-dead-letter-routing-key", DEAD_LETTER_ROUTING_KEY);
+        channel.queueDeclare(DELAY_QUEUE_NAME, false, false, false, arguments);
 
         String message = getMessage(args);
-         // publish to the default exchange with the the delayed queue name as routing key
-        channel.basicPublish("", DELAY_QUEUE_NAME, null, message.getBytes("UTF-8"));
+        AMQP.BasicProperties props = new AMQP.BasicProperties
+                .Builder()
+                .expiration("3000")
+                .build();
+        channel.basicPublish("", DELAY_QUEUE_NAME, props, message.getBytes("UTF-8"));
         System.out.println(" [x] Sent '" + message + "'");
 
         channel.close();

@@ -1,17 +1,23 @@
-package com.kevin.ttldlx.permessage;
+package com.kevin.ttldlx.xdelayedmessage;
 
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-public class Subscriber {
+/**
+ * @类名：Recv
+ * @包名：com.kevin.ttldlx.xdelayedmessage
+ * @作者：kevin[wangqi2017@xinhua.org]
+ * @时间：2017/10/8 20:38
+ * @版本：1.0
+ * @描述：
+ */
+public class Recv {
 
-    private static final String DEAD_LETTER_QUEUE_NAME = "dead_letter_queue";
-    private static final String DEAD_LETTER_EXCHANGE_NAME = "dead_letter_exchange";
-    private static final String DEAD_LETTER_ROUTING_KEY = "dead_letter";
+    private static final String EXCHANGE_NAME = "delayed_exchange";
+    private static final String QUEUE_NAME = "delayed_queue";
+    private static final String ROUTING_KEY = "delayed_routing_key";
 
     public static void main(String[] args) throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
@@ -21,11 +27,8 @@ public class Subscriber {
         Connection connection = factory.newConnection();
 
         Channel channel = connection.createChannel();
-        channel.exchangeDeclare(DEAD_LETTER_EXCHANGE_NAME, "direct");
-        channel.queueDeclare(DEAD_LETTER_QUEUE_NAME, false, false, false, null);
-        channel.queueBind(DEAD_LETTER_QUEUE_NAME, DEAD_LETTER_EXCHANGE_NAME, DEAD_LETTER_ROUTING_KEY);
-
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+        channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+        channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
 
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
@@ -39,6 +42,6 @@ public class Subscriber {
                 System.out.println(" [x] Received '" + envelope.getRoutingKey() + "':'" + message + "'");
             }
         };
-        channel.basicConsume(DEAD_LETTER_QUEUE_NAME, true, consumer);
+        channel.basicConsume(QUEUE_NAME, true, consumer);
     }
 }
