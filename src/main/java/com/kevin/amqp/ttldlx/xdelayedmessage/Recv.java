@@ -30,6 +30,8 @@ public class Recv {
         channel.queueDeclare(QUEUE_NAME, false, false, false, null);
         channel.queueBind(QUEUE_NAME, EXCHANGE_NAME, ROUTING_KEY);
 
+        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+
         Consumer consumer = new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag,
@@ -39,7 +41,8 @@ public class Recv {
                     throws IOException
             {
                 String message = new String(body, "UTF-8");
-                System.out.println(" [x] Received '" + envelope.getRoutingKey() + "':'" + message + "'");
+                System.out.println(" [x] Received '" + envelope.getRoutingKey() + "':'" + message + "'" +
+                        "\nx-delay: " + properties.getHeaders().get("x-delay"));
             }
         };
         channel.basicConsume(QUEUE_NAME, true, consumer);

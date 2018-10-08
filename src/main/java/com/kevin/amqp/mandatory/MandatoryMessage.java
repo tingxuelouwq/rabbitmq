@@ -17,7 +17,7 @@ public class MandatoryMessage {
 
     private static final String MANDATORY_QUEUE_NAME = "mandatory_queue";
 
-    public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
+    public static void main(String[] args) throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         factory.setUsername("kevin");
@@ -37,9 +37,5 @@ public class MandatoryMessage {
         String message = "hello world";
         channel.basicPublish("", MANDATORY_QUEUE_NAME, true, MessageProperties.PERSISTENT_TEXT_PLAIN, message.getBytes("UTF-8"));
         System.out.println(" [x] Sent '" + message + "'");
-
-        while (true) {
-            Thread.sleep(5);
-        }
     }
 }

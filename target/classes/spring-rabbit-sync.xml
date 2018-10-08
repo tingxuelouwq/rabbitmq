@@ -19,15 +19,15 @@
         <constructor-arg name="connectionFactory" ref="cachingConnectionFactory"/>
     </bean>
 
+    <!-- 配置Queue -->
+    <bean id="directQueue" class="org.springframework.amqp.core.Queue">
+        <constructor-arg name="name" value="${rabbit.queue}"/>
+    </bean>
+
     <!-- 配置RabbitTemplate -->
     <bean id="rabbitTemplate" class="org.springframework.amqp.rabbit.core.RabbitTemplate">
         <property name="connectionFactory" ref="cachingConnectionFactory"/>
         <property name="queue" value="${rabbit.queue}"/>
         <property name="routingKey" value="${rabbit.routingKey}"/>
-    </bean>
-
-    <!-- 配置Queue -->
-    <bean id="directQueue" class="org.springframework.amqp.core.Queue">
-        <constructor-arg name="name" value="${rabbit.queue}"/>
     </bean>
 </beans>

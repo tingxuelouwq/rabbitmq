@@ -15,7 +15,7 @@ public class Publisher {
     private static final String DEAD_LETTER_EXCHANGE_NAME = "dead_letter_exchange";
     private static final String DEAD_LETTER_ROUTING_KEY = "dead_letter";
 
-    public static void main(String[] args) throws IOException, TimeoutException, InterruptedException {
+    public static void main(String[] args) throws IOException, TimeoutException {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
         factory.setUsername("kevin");
