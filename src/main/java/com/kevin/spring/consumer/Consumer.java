@@ -16,7 +16,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Consumer {
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context =
+                new ClassPathXmlApplicationContext("spring/sync/spring-context.xml");
         AmqpTemplate amqpTemplate = context.getBean(RabbitTemplate.class);
         String message = amqpTemplate.receiveAndConvert().toString();
         System.out.println(" [x] Received '" + message + "'");
