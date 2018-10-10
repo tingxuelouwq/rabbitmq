@@ -15,7 +15,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class AnnoProducer {
     public static void main(String[] args) {
         ApplicationContext context =
-                new AnnotationConfigApplicationContext(SyncAnnoAmqpConfig.class);
+                new AnnotationConfigApplicationContext(AnnoAmqpConfig.class);
         AmqpTemplate amqpTemplate = context.getBean(AmqpTemplate.class);
         String message = "test spring sync message";
         amqpTemplate.convertAndSend(message);
