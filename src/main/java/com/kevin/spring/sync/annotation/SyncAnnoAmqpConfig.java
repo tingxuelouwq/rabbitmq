@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
  * @描述：
  */
 @Configuration
-public class AmqpConfig {
+public class SyncAnnoAmqpConfig {
 
     private static final String DEFAULT_ROUTING_KEY = "spring.queue.sync";
     private static final String DEFAULT_QUEUE = DEFAULT_ROUTING_KEY;

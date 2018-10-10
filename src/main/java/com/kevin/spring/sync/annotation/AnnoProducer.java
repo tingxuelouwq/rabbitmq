@@ -12,10 +12,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @版本：1.0
  * @描述：
  */
-public class Producer {
+public class AnnoProducer {
     public static void main(String[] args) {
         ApplicationContext context =
-                new AnnotationConfigApplicationContext(AmqpConfig.class);
+                new AnnotationConfigApplicationContext(SyncAnnoAmqpConfig.class);
         AmqpTemplate amqpTemplate = context.getBean(AmqpTemplate.class);
         String message = "test spring sync message";
         amqpTemplate.convertAndSend(message);

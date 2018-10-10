@@ -12,10 +12,10 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
  * @版本：1.0
  * @描述：
  */
-public class Consumer {
+public class AnnoConsumer {
     public static void main(String[] args) {
         ApplicationContext context =
-                new AnnotationConfigApplicationContext(AmqpConfig.class);
+                new AnnotationConfigApplicationContext(SyncAnnoAmqpConfig.class);
         AmqpTemplate amqpTemplate = context.getBean(AmqpTemplate.class);
         String message = amqpTemplate.receiveAndConvert().toString();
         System.out.println(" [x] Received '" + message + "'");

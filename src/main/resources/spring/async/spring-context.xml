@@ -9,7 +9,7 @@
 
     <context:component-scan base-package="com.kevin.spring"/>
 
-    <context:property-placeholder location="classpath:spring/sync/rabbitmq.sync.properties"/>
-
-    <import resource="spring-rabbitmq-sync.xml"/>
+    <import resource="spring-rabbitmq-producer.xml"/>
+    <import resource="spring-rabbitmq-consumer.xml"/>
 </beans>
+

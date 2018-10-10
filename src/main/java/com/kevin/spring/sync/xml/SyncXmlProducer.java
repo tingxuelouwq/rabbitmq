@@ -6,20 +6,21 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * @class: Consumer
- * @package: com.kevin.spring.consumer
+ * @class: Producer
+ * @package: com.kevin.spring.producer
  * @author: kevin[wangqi2017@xinhua.org]
- * @date: 2017/12/4 20:53
+ * @date: 2017/12/4 20:25
  * @version: 1.0
  * @desc:
  */
-public class Consumer {
+public class SyncXmlProducer {
 
     public static void main(String[] args) {
         ApplicationContext context =
                 new ClassPathXmlApplicationContext("spring/sync/spring-context.xml");
         AmqpTemplate amqpTemplate = context.getBean(RabbitTemplate.class);
-        String message = amqpTemplate.receiveAndConvert().toString();
-        System.out.println(" [x] Received '" + message + "'");
+        String message = "test spring sync message";
+        amqpTemplate.convertAndSend(message);
+        System.out.println(" [x] Sent '" + message + "'");
     }
 }

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/rabbit
+       http://www.springframework.org/schema/rabbit/spring-rabbit-1.2.xsd">
+
+    <!-- 配置ConnectionFactory -->
+    <rabbit:connection-factory id="cachingConnectionFactory" host="${sync.rabbit.host}"
+                               port="${sync.rabbit.port}" username="${sync.rabbit.username}"
+                               password="${sync.rabbit.password}" virtual-host="${sync.rabbit.virtualHost}"
+                               channel-cache-size="5"/>
+
+    <!-- 配置RabbitAdmin，用于管理交换器、队列和绑定 -->
+    <rabbit:admin id="rabbitAdmin" connection-factory="cachingConnectionFactory"/>
+
+    <!-- 配置Queue -->
+    <rabbit:queue id="directQueue" name="${sync.rabbit.queue}" durable="false"/>
+
+    <!-- 配置RabbitTemplate -->
+    <rabbit:template id="rabbitTemplate" connection-factory="cachingConnectionFactory"
+                     queue="${sync.rabbit.queue}" routing-key="${sync.rabbit.routingKey}"/>
+</beans>
