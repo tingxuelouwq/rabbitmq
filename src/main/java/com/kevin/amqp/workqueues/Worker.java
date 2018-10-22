@@ -3,6 +3,7 @@ package com.kevin.amqp.workqueues;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeoutException;
 
 /**
